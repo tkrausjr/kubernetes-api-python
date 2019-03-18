@@ -1,30 +1,28 @@
-# image-mover
-A simple application utility for Migrating Docker Images between Registries or entire Registries to a new Registry. 
+# kubernetes-api-python
+A collection of scratch code and base code that can be used for different projects. 
 
-## Installation
-Run as a Docker Container or locally with Python already installed.
+## Installation OSX
+Requires Kubernetes python client
+pip install --user kubernetes
 
 ## Requirements
-If running locally as a script you will need Docker CLI installed.
-Network access to SRC and DST Docker Registries.
-Only tested with Python 3.6.1
+Requires Kubernetes python client(See above)
+Requires ~/.kube/config  file.
 
 ## Usage
 
 ```
-usage: image-mover.py [-h] [-s SOURCE_REGISTRY] [-i IMAGES] -m MODE -d
-                      DESTINATION_REGISTRY [-u TARGET_REGISTRY_USER]
-                      [-p TARGET_REGISTRY_PASSWORD]
+TBD
 ```
 ## Examples
 
-Example 1 - Migrate ALL images from one Registry to another.
+Example 1 
 ```
-$ python3 image-mover.py -s localhost:5000 -m sync -d localhost:5001
+TBD
 ```
-Example 2 - Migrate a list of images to the target registry to "library" project.
+Example 2
 ```
-$ python3 image-mover.py -i nginx:latest,kafka:latest,tomcat -m sync -d harbor2.prod.domain.com/library
+TBD
 ```
 
 
