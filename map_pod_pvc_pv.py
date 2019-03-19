@@ -14,7 +14,6 @@ import json
 
 def main():
 
-    ns = ""
     config.load_kube_config()
     api = client.CoreV1Api()
 
@@ -22,8 +21,7 @@ def main():
     # PVS not currently used - Only needed this for actual SIZE Of the PV if it is different than what was requrested in PVC
 
     pods = api.list_pod_for_all_namespaces(watch=False)
-    pvcs = api.list_namespaced_persistent_volume_claim(
-        namespace=ns, watch=False)
+    pvcs = api.list_namespaced_persistent_volume_claim(namespace="", watch=False)
     pvs = api.list_persistent_volume(
         watch=False)
 
