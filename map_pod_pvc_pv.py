@@ -18,59 +18,54 @@ def main():
     config.load_kube_config()
     api = client.CoreV1Api()
 
-    # PVC Code
-    try:
-        pvcs = api.list_namespaced_persistent_volume_claim(
-            namespace=ns, watch=False)
-        print("\n---- PVCs ---\n")
-        print("%-16s\t%-40s\t%-6s" % ("PVC_NAME", "PV", "PVC_REQUESTED"))
-        for pvc in pvcs.items:
-            print("%-16s\t%-40s\t%-6s" %
-                  (pvc.metadata.name, pvc.spec.volume_name,
-                   pvc.spec.resources.requests['storage']))
-    except ApiException as e:
-        print("Exception when calling CoreV1Api->list_persistent_volume_claims %s\n" % e)
+    # Load the PODs, PVCS, and PVS Objects
+    # PVS not currently used - Only needed this for actual SIZE Of the PV if it is different than what was requrested in PVC
 
-    # PV Code
+    pods = api.list_pod_for_all_namespaces(watch=False)
+    pvcs = api.list_namespaced_persistent_volume_claim(
+        namespace=ns, watch=False)
     pvs = api.list_persistent_volume(
         watch=False)
 
-    print("\n---- PVs ---\n")
-    print("%-40s\t%-16s" % ("PV_NAME", "PV_CAPACITY"))
-    for pv in pvs.items:
-        print("%-40s\t%-16s" %  (pv.metadata.name,
-                   pv.spec.capacity['storage']))
+    # HACKY - Python doesnt natively support pandas like DB Table functionality
+    # Need to build a LIST of DICTS. List below
+    # Dicts will be appended in the loop
+    pod_storage_list = []
 
-    '''
-    # POD DEBUG Code to show entire response
-    try:
-        api_response = api.list_pod_for_all_namespaces( pretty=
-                                                        True)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling CoreV1Api->list_pod_for_all_namespaces: %s\n" % e)
-    '''
-
-    # POD Code
-    print("\n---- PODs ---\n")
-    pods = api.list_pod_for_all_namespaces(watch=False)
-
-    # SELECTIVE RESPONSE SHOW NS, POD NAME, and PVC
-    print("%-20s\t%-40s\t%-6s" % ("POD_NAMESPACE", "POD_NAME", "PERSISTENT_VOLUME_CLAIM_0"))
     for i in pods.items:
-        pod_pvc = i.spec.volumes[0].persistent_volume_claim
-        if pod_pvc == None:
-            pvc = "N/A"
+        pod_pvcs = i.spec.volumes[0].persistent_volume_claim
+
+        #Check for truthiness of pod_pvc to see if it contains anything or is None
+        if pod_pvcs:
+            pod_storage_dict = {}
+            pod_pvc = i.spec.volumes[0].persistent_volume_claim.claim_name
+            pod_storage_dict['pod_namespace'] = i.metadata.namespace
+            pod_storage_dict['pod_name'] = i.metadata.name
+            pod_storage_dict['pod_pvc'] = i.spec.volumes[0].persistent_volume_claim.claim_name
+
+            for j in pvcs.items:
+                if j.metadata.name == i.spec.volumes[0].persistent_volume_claim.claim_name:
+                    pod_storage_dict['pod_volume_name'] = j.spec.volume_name
+                    pod_storage_dict['pod_pvc_request_size'] = j.spec.resources.requests['storage']
+                    #DEBUG
+                    # print("POD Storage Dict " + str(pod_storage_dict))
+            pod_storage_list.append(pod_storage_dict)
         else:
-            pvc = i.spec.volumes[0].persistent_volume_claim.claim_name
+            pvc = "N/A"
+
+    # Now crack open the LIST of DICTS
+    print("pod_storage_list = " + str(pod_storage_list))
+    print('\nOpen up the LIST of DICTS stored in pod_storage_list ')
+    print('Found {} PODs with Persistent Volume Claims'.format(len(pod_storage_list)))
+    for x in pod_storage_list:
+        print('\n')
+        for key, value in x.items():
+            print('{}: {}'.format(key, value))
 
 
-        print("%-20s\t%-40s\t%-6s" % (
-                                             i.metadata.namespace,
-                                             i.metadata.name, pvc
-                                                    ))
 
 
 main()
+
 
 
