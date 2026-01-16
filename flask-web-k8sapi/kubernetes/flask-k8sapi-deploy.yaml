@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-api-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-k8sapi
+  template:
+    metadata:
+      labels:
+        app: flask-k8sapi
+    spec:
+      containers:
+      - name: web-app
+        image: harbor.mbentley.net/tkraus/flask-k8sapi:v1
+        ports:
+        - containerPort: 5000

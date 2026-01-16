@@ -1,0 +1,4 @@
+FROM harbor.mbentley.net/docker.io/library/python:3.9-slim
+RUN pip install flask kubernetes
+COPY flask-k8sapi.py .
+CMD ["python", "flask-k8sapi.py"]
