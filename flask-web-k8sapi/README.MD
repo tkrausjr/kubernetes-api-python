@@ -2,25 +2,25 @@
 ## 1 - Build Web Application that talks to K8s API
 Create the Python Code. This step is already done for you. File is flask-k8sapi.py.
 
-## 2 - Build Container Image from your Web Application
-
+## 2 - Build Docker Image from your Web Application
+```
  git clone https://github.com/tkrausjr/kubernetes-api-python.git
  cd kubernetes-api-python/flask-web-k8sapi
  sudo docker build -t harbor.mbentley.net/tkraus/flask-k8sapi:v1 .
  sudo docker images
  sudo docker login harbor.mbentley.net
  sudo docker push harbor.mbentley.net/tkraus/flask-k8sapi:v1
-
+```
 ## 3 - Build / Update Kubernetes object YAML
 Update the flask-k8sapi-deploy.yaml file in ./kubernetes folder to reflect whatever registry you pushed the docker image to. Change the Deployments spec.template.spec.containers[0].image: field.
 
 ## 4 - Deploy Kubernetes objects
-
+```
 kubectl vsphere login --server 10.1.8.6 --vsphere-username administrator@vsphere.local --insecure-skip-tls-verify --tanzu-kubernetes-cluster-name vks-01 --tanzu-kubernetes-cluster-namespace testing123
 kubectl label --overwrite ns default pod-security.kubernetes.io/enforce=privileged
 kubectl apply -f ./kubernetes/
 kubectl get svc -w
-
+```
 ## 5 - Test the Python Flask Application
 
 From a browser, access the application at http://<EXTERNAL-IP> on default port 80.
