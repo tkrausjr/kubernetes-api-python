@@ -23,7 +23,7 @@ kubectl get svc -w
 ```
 ## 5 - Test the Python Flask Application
 
-From a browser, access the application at ***http://<EXTERNAL-IP>*** on default port 80.
+From a browser, access the application at `***http://<EXTERNAL-IP>***` on default port 80.
 
 
 ### Reference [Basic K8s API Flask App](https://www.google.com/search?q=build+a+simple+kubernetes+web+based+application+k8s+api&sca_esv=492d03d456b59a14&rlz=1C5GCCA_en&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwvCHF0Eqz8cUq4JjDCZnrJG3IQ9hSM-GoYfSAqo_zJgC8GHuEE9ehM7VlFnv8pyn_4gwgnnAqmsxpqy1E8YGqcDS9cptS67pcIpPqn4IMgzGMeCqJHb-zTRxeehyYmiPr22wi7vtH9t-0PG7m_AIs8H2mc6dH6OEJ2wczdXosTAaf6qSFA&aep=1&ntc=1&sa=X&ved=2ahUKEwjgusfchI6SAxVPMlkFHUvhMbUQ2J8OegQIBRAE&biw=1704&bih=963&dpr=2&aic=0&mstk=AUtExfASzBrNy4FZFO8ASFIrrjvkTaSOwyJrfh-l5t5IxCElfFQOEepkTRzNR1zKAfK0cuaSokPfj8T7xuwdoQ-D0PYubJZJUBwl5-jaDdo8kwnba8nn2Y3rclW10RbwqvuHRK-13SUZJWMpoGjCnK1HlArAMAi3zF2D6hq6vy9pg5w3DPoPYNJ5t4iVaYTONWM2yLXaTW_oLKxURj6BnQmS3_NN9THVIkf2SuOUKfYlMEKbgPdo0tHMsEB31Q&csuir=1&atvm=2).
