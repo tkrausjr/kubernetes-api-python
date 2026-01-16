@@ -12,7 +12,7 @@ Create the Python Code. This step is already done for you. File is flask-k8sapi.
  sudo docker push harbor.mbentley.net/tkraus/flask-k8sapi:v1
 ```
 ## 3 - Build / Update Kubernetes object YAML
-Update the flask-k8sapi-deploy.yaml file in ./kubernetes folder to reflect whatever registry you pushed the docker image to. Change the Deployments***spec.template.spec.containers[0].image:*** field.
+Update the flask-k8sapi-deploy.yaml file in ./kubernetes folder to reflect whatever registry you pushed the docker image to. Change the ***spec.template.spec.containers[0].image:*** field in the Deployment Manifest (***flask-k8sapi-deploy.yaml*** ). 
 
 ## 4 - Deploy Kubernetes objects
 ```
